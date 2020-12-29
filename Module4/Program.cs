@@ -1,53 +1,127 @@
 ﻿using System;
 
-namespace Module4
+class Program
 {
-    class MainClass
+    static void Main(string[] args)
     {
-        public static void Main(string[] args)
+        Screen(EnterUser());
+    }
+    static (string Name, string LastName, bool HasPet, int PetNum, string[] PetNames, int Age, string[] FavColors, int ColNum) EnterUser()
 
+    {
+
+        (string Name, string LastName, bool HasPet, int PetNum, string[] PetNames, int Age, string[] FavColors, int ColNum) User;
+
+
+        Console.WriteLine("Введите имя: ");
+        User.Name = Console.ReadLine();
+
+        Console.WriteLine("Введите фамилию: ");
+        User.LastName = Console.ReadLine();
+
+        string age;
+        int intage;
+        do
         {
-            
-            (string Name, string LastName, string Login, int LoginLength, bool HasPet, double Age, string[] FavColors) User;
-            for (int k = 0; k < 3; k++)
+            Console.WriteLine("Введите ваш возраст цифрами: ");
+            age = Console.ReadLine();
+        }
+        while (CheckNum(age, out intage));
+
+        User.Age = intage;
+
+        Console.WriteLine("Есть ли у вас животные? Введите да или нет: ");
+        var result = Console.ReadLine();
+
+        if (result == "да")
+        {
+            User.HasPet = true;
+
+            do
             {
-            Console.WriteLine("Введите имя: ");
-            User.Name = Console.ReadLine();
-
-            Console.WriteLine("Введите фамилию: ");
-            User.LastName = Console.ReadLine();
-
-            Console.WriteLine("Введите логин: ");
-            User.Login = Console.ReadLine();
-            User.LoginLength = User.Login.Length;
-
-            Console.WriteLine("Есть ли у вас животные? Введите Да или Нет: ");
-
-            var result = Console.ReadLine();
-
-            if (result == "Да")
-            {
-                User.HasPet = true;
+                Console.WriteLine("Сколько у вас питомцев?");
+                result = Console.ReadLine();
             }
-            else
+            while (CheckNum(result, out User.PetNum));
+
+            User.PetNames = new string[User.PetNum];
+            Console.WriteLine("Введите клички ваших питомцев: ");
+            for (int i = 0; i < User.PetNames.Length; i++)
             {
-                User.HasPet = false;
-            }
-
-            Console.WriteLine("Введите ваш возраст: ");
-            User.Age = double.Parse(Console.ReadLine());
-
-            User.FavColors = new string[3];
-            Console.WriteLine("Введите три ваших любимых цвета: ");
-
-            for (int i = 0; i < User.FavColors.Length; i++)
-            {
-                    User.FavColors[i] = Console.ReadLine();
-            }
+                User.PetNames[i] = Console.ReadLine();
             }
         }
+        else
+        {
+            User.HasPet = false;
+            User.PetNum = 0;
+            User.PetNames = new string[User.PetNum];
+        }
 
-        /*static int[] GetArrayFromConsole()
+        do
+        {
+            Console.WriteLine("Сколько у вас любимых цветов?");
+            result = Console.ReadLine();
+        }
+        while (CheckNum(result, out User.ColNum));
+
+        User.FavColors = new string[User.ColNum];
+
+        Console.WriteLine("Введите ваши любимые цвета: ");
+
+        for (int i = 0; i < User.FavColors.Length; i++)
+        {
+            User.FavColors[i] = Console.ReadLine();
+        }
+        return User;
+    }
+
+    static bool CheckNum(string strnum, out int intnum)
+    {
+        if (int.TryParse(strnum, out intnum))
+        {
+            if (intnum > 0)
+            {
+                return false;
+            }
+        }
+            intnum = 0;
+            return true;
+        }
+        static void Screen((string Name, string LastName, bool HasPet, int PetNum, string[] PetNames, int Age, string[] FavColors, int ColNum) User)
+        {
+            Console.WriteLine("Ваше имя: {0}", User.Name);
+            Console.WriteLine("Ваша фамилия: {0}", User.LastName);
+            Console.WriteLine("Ваш возраст: {0}", User.Age);
+        if (User.PetNum > 0)
+        {
+            Console.WriteLine("У вас {0} питомцев", User.PetNum);
+            Console.WriteLine("Ваши питомцы: ");
+            for (int i = 0; i < User.PetNum; i++)
+            {
+                Console.WriteLine(User.PetNames[i]);
+            }
+        }
+        else
+            Console.WriteLine("У вас нет питомцев");
+
+            Console.WriteLine("Количество ваших любимых цветов: {0}", User.ColNum);
+            Console.WriteLine("Ваши любимые цвета: ");
+            for (int i = 0; i < User.ColNum; i++)
+            {
+                Console.WriteLine(User.FavColors[i]);
+            }
+
+    }
+    }
+
+            /*
+                           Console.WriteLine("Введите логин: ");
+                           User.Login = Console.ReadLine();
+                           User.LoginLength = User.Login.Length;
+
+
+              static int[] GetArrayFromConsole()
             {
                 var result = new int[5];
                 var value = GetArrayFromConsole();
@@ -111,7 +185,6 @@ namespace Module4
                 break;
         }
         */
-    }
-}
+
 
 
